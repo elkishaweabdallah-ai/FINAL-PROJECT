@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "MDN Web Docs — JavaScript Guide",
+    "category": "JavaScript",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+    "description": "Official JS guide with examples and references."
+  },
+  {
+    "id": 2,
+    "title": "MDN — CSS Layout (Flexbox)",
+    "category": "CSS",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout",
+    "description": "Learn Flexbox with practical rules and patterns."
+  },
+  {
+    "id": 3,
+    "title": "MDN — CSS Grid Layout",
+    "category": "CSS",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout",
+    "description": "Grid for responsive layouts and components."
+  },
+  {
+    "id": 4,
+    "title": "JavaScript Info",
+    "category": "JavaScript",
+    "link": "https://javascript.info/",
+    "description": "Comprehensive modern JavaScript tutorial."
+  },
+  {
+    "id": 5,
+    "title": "Frontend Checklist",
+    "category": "Web",
+    "link": "https://frontendchecklist.io/",
+    "description": "Quality checklist for UI, performance, SEO."
+  },
+  {
+    "id": 6,
+    "title": "HTTP Status Codes",
+    "category": "Web",
+    "link": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+    "description": "Understand server responses and errors."
+  },
+  {
+    "id": 7,
+    "title": "Figma — Learn Design Basics",
+    "category": "Design",
+    "link": "https://www.figma.com/resources/learn-design/",
+    "description": "UI/UX basics, layout, spacing, and components."
+  },
+  {
+    "id": 8,
+    "title": "Google Lighthouse",
+    "category": "Tools",
+    "link": "https://developer.chrome.com/docs/lighthouse/overview/",
+    "description": "Audit performance, accessibility, best practices."
+  },
+  {
+    "id": 9,
+    "title": "ARIA Authoring Practices",
+    "category": "Web",
+    "link": "https://www.w3.org/WAI/ARIA/apg/",
+    "description": "Accessibility patterns for interactive components."
+  },
+  {
+    "id": 10,
+    "title": "Git Handbook",
+    "category": "Tools",
+    "link": "https://guides.github.com/introduction/git-handbook/",
+    "description": "Git basics to manage and share code on GitHub."
+  }
+]

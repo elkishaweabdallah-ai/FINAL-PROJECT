@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StudyBuddy • Student Planner</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- Icons (allowed) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">SB</div>
+      <div>
+        <h1 class="app-title">StudyBuddy</h1>
+        <p class="app-subtitle">Planner • Habits • Resources</p>
+      </div>
+    </div>
+
+    <button class="icon-btn burger" id="burgerBtn" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav class="nav" id="mainNav" aria-label="Primary">
+      <a class="nav-link" href="#dashboard" data-route="dashboard">
+        <i class="fa-solid fa-chart-line"></i><span>Dashboard</span>
+      </a>
+      <a class="nav-link" href="#tasks" data-route="tasks">
+        <i class="fa-solid fa-list-check"></i><span>Tasks</span>
+      </a>
+      <a class="nav-link" href="#habits" data-route="habits">
+        <i class="fa-solid fa-fire"></i><span>Habits</span>
+      </a>
+      <a class="nav-link" href="#resources" data-route="resources">
+        <i class="fa-solid fa-book-open"></i><span>Resources</span>
+      </a>
+      <a class="nav-link" href="#settings" data-route="settings">
+        <i class="fa-solid fa-gear"></i><span>Settings / About</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="view" aria-labelledby="dashTitle">
+      <div class="view-head">
+        <h2 id="dashTitle">Dashboard</h2>
+        <p class="muted">Overview + quick actions</p>
+      </div>
+
+      <div class="grid cards3">
+        <article class="card">
+          <div class="card-top">
+            <h3>Soon due</h3>
+            <i class="fa-regular fa-clock"></i>
+          </div>
+          <p class="big" id="dashSoon">0</p>
+          <p class="muted">Tasks due today or within 2 days</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <h3>Completed</h3>
+            <i class="fa-regular fa-circle-check"></i>
+          </div>
+          <p class="big" id="dashCompleted">0</p>
+          <p class="muted">Finished tasks</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <h3>Habit streak</h3>
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <p class="big" id="dashStreak">0</p>
+          <p class="muted">This week progress streak</p>
+        </article>
+      </div>
+
+      <section class="card mt" aria-labelledby="todayTitle">
+        <div class="card-top">
+          <h3 id="todayTitle">Today</h3>
+          <span class="pill" id="todayCount">0 items</span>
+        </div>
+
+        <div class="list" id="todayList" aria-live="polite"></div>
+
+        <div class="progress-wrap">
+          <div class="progress-head">
+            <span>Tasks progress</span>
+            <span class="muted" id="progressText">0%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="progressBar" style="width:0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick add (optional in sheet, but included) -->
+      <section class="card mt" aria-labelledby="quickAddTitle">
+        <div class="card-top">
+          <h3 id="quickAddTitle">Quick Add Task</h3>
+          <i class="fa-solid fa-plus"></i>
+        </div>
+
+        <form id="quickTaskForm" class="form-inline" novalidate>
+          <div class="field">
+            <label class="sr-only" for="quickTitle">Title</label>
+            <input id="quickTitle" name="title" type="text" placeholder="Task title (required)" required />
+            <small class="error" data-err="quickTitle"></small>
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="quickDue">Due Date</label>
+            <input id="quickDue" name="dueDate" type="date" required />
+            <small class="error" data-err="quickDue"></small>
+          </div>
+
+          <button class="btn primary" type="submit">Add</button>
+        </form>
+      </section>
+    </section>
+
+    <!-- TASKS -->
+    <section id="tasks" class="view" aria-labelledby="tasksTitle" hidden>
+      <div class="view-head">
+        <h2 id="tasksTitle">Tasks</h2>
+        <p class="muted">CRUD + Filter + Sort</p>
+      </div>
+
+      <section class="card">
+        <div class="card-top">
+          <h3 id="taskFormTitle">Add Task</h3>
+          <span class="pill" id="editPill" hidden><i class="fa-solid fa-pen"></i> Editing</span>
+        </div>
+
+        <form id="taskForm" class="form" novalidate>
+          <div class="grid form-grid">
+            <div class="field">
+              <label for="taskTitle">Title <span class="req">*</span></label>
+              <input id="taskTitle" name="title" type="text" required />
+              <small class="error" data-err="taskTitle"></small>
+            </div>
+
+            <div class="field">
+              <label for="taskDue">Due Date <span class="req">*</span></label>
+              <input id="taskDue" name="dueDate" type="date" required />
+              <small class="error" data-err="taskDue"></small>
+            </div>
+
+            <div class="field">
+              <label for="taskPriority">Priority <span class="req">*</span></label>
+              <select id="taskPriority" name="priority" required>
+                <option value="">Select</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+              </select>
+              <small class="error" data-err="taskPriority"></small>
+            </div>
+
+            <div class="field">
+              <label for="taskCategory">Category <span class="req">*</span></label>
+              <select id="taskCategory" name="category" required>
+                <option value="">Select</option>
+                <option>Study</option>
+                <option>Assignment</option>
+                <option>Exam</option>
+                <option>Personal</option>
+              </select>
+              <small class="error" data-err="taskCategory"></small>
+            </div>
+
+            <div class="field span2">
+              <label for="taskDesc">Description (optional)</label>
+              <textarea id="taskDesc" name="description" rows="3" placeholder="Notes..."></textarea>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" type="submit" id="taskSubmitBtn">Add Task</button>
+            <button class="btn ghost" type="button" id="taskCancelEditBtn" hidden>Cancel</button>
+            <button class="btn danger" type="button" id="taskClearBtn">Clear Form</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card mt">
+        <div class="card-top">
+          <h3>Controls</h3>
+          <i class="fa-solid fa-sliders"></i>
+        </div>
+
+        <div class="grid controls">
+          <div class="field">
+            <label for="filterStatus">Filter</label>
+            <select id="filterStatus">
+              <option value="all">All</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="filterCategory">Category</label>
+            <select id="filterCategory">
+              <option value="all">All</option>
+              <option>Study</option>
+              <option>Assignment</option>
+              <option>Exam</option>
+              <option>Personal</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="sortBy">Sort</label>
+            <select id="sortBy">
+              <option value="dueDate">Due Date</option>
+              <option value="priority">Priority</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn" type="button" id="seedBtn">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Add Sample
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt">
+        <div class="section-row">
+          <h3 class="section-title">Your Tasks</h3>
+          <span class="pill" id="taskCountPill">0 tasks</span>
+        </div>
+
+        <div class="grid task-grid" id="tasksList" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <!-- HABITS -->
+    <section id="habits" class="view" aria-labelledby="habitsTitle" hidden>
+      <div class="view-head">
+        <h2 id="habitsTitle">Habits</h2>
+        <p class="muted">Weekly tracker (Sat–Fri)</p>
+      </div>
+
+      <section class="card">
+        <div class="card-top">
+          <h3>Add Habit</h3>
+          <i class="fa-solid fa-plus"></i>
+        </div>
+
+        <form id="habitForm" class="form" novalidate>
+          <div class="grid form-grid">
+            <div class="field">
+              <label for="habitName">Habit name <span class="req">*</span></label>
+              <input id="habitName" name="name" type="text" required />
+              <small class="error" data-err="habitName"></small>
+            </div>
+
+            <div class="field">
+              <label for="habitGoal">Goal (days/week) <span class="req">*</span></label>
+              <input id="habitGoal" name="goal" type="number" min="1" max="7" required />
+              <small class="error" data-err="habitGoal"></small>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" type="submit">Add Habit</button>
+            <button class="btn danger" type="button" id="habitClearBtn">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card mt">
+        <div class="card-top">
+          <h3>Weekly Summary</h3>
+          <span class="pill" id="habitSummary">0 / 0 achieved</span>
+        </div>
+        <p class="muted">
+          Week starts on <strong id="weekStartLabel">—</strong>
+        </p>
+      </section>
+
+      <section class="mt">
+        <div class="section-row">
+          <h3 class="section-title">Your Habits</h3>
+          <span class="pill" id="habitCountPill">0 habits</span>
+        </div>
+
+        <div class="grid habit-grid" id="habitsList" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <!-- RESOURCES -->
+    <section id="resources" class="view" aria-labelledby="resourcesTitle" hidden>
+      <div class="view-head">
+        <h2 id="resourcesTitle">Resources</h2>
+        <p class="muted">Search + Favorites + fetch() async</p>
+      </div>
+
+      <section class="card">
+        <div class="card-top">
+          <h3>Search</h3>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <div class="grid controls">
+          <div class="field">
+            <label for="resSearch">Search</label>
+            <input id="resSearch" type="text" placeholder="Type keywords..." />
+          </div>
+
+          <div class="field">
+            <label for="resCategory">Category</label>
+            <select id="resCategory">
+              <option value="all">All</option>
+              <option>Web</option>
+              <option>JavaScript</option>
+              <option>CSS</option>
+              <option>Design</option>
+              <option>Tools</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn" type="button" id="showFavOnlyBtn">
+              <i class="fa-regular fa-star"></i> Favorites
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt">
+        <div class="section-row">
+          <h3 class="section-title">Resources List</h3>
+          <span class="pill" id="resCountPill">0</span>
+        </div>
+
+        <div class="status" id="resStatus" aria-live="polite"></div>
+        <div class="grid res-grid" id="resourcesList"></div>
+      </section>
+    </section>
+
+    <!-- SETTINGS / ABOUT -->
+    <section id="settings" class="view" aria-labelledby="settingsTitle" hidden>
+      <div class="view-head">
+        <h2 id="settingsTitle">Settings / About</h2>
+        <p class="muted">Theme + Reset + info</p>
+      </div>
+
+      <section class="card">
+        <div class="card-top">
+          <h3>Theme</h3>
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </div>
+
+        <div class="row">
+          <div>
+            <p class="muted">Toggle Light / Dark (saved in localStorage)</p>
+          </div>
+          <button class="btn" id="themeToggleBtn" type="button">
+            <i class="fa-solid fa-moon"></i> Toggle Theme
+          </button>
+        </div>
+      </section>
+
+      <section class="card mt">
+        <div class="card-top">
+          <h3>Reset Data</h3>
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <p class="muted">This will remove tasks, habits, favorites, and settings.</p>
+        <button class="btn danger" id="resetBtn" type="button">
+          <i class="fa-solid fa-trash"></i> Reset All
+        </button>
+      </section>
+
+      <section class="card mt">
+        <div class="card-top">
+          <h3>About</h3>
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <p>
+          StudyBuddy is a single-page app to organize tasks, track weekly habits, and save learning resources.
+        </p>
+        <p class="muted">
+          Student: <strong id="studentName">Your Name Here</strong>
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="muted">© <span id="year"></span> StudyBuddy • SPA (Vanilla JS)</p>
+  </footer>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
